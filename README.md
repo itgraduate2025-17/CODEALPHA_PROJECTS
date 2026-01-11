@@ -1,4 +1,4 @@
-# AI Chatbot using Groq
+# AI Chatbot using Groq + Python
 
 This is a simple AI chatbot project built using Python, Groq LLM, and Gradio.
 
