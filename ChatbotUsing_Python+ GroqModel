@@ -1,0 +1,39 @@
+import os
+import gradio as gr
+from groq import Groq
+
+# Set API key (BETTER: set this in environment, not hard-coded)
+os.environ["GROQ_API_KEY"] = "Paste API key Here"
+
+client = Groq()
+
+# Chatbot response function (THIS WAS MISSING)
+def chatbot_response(user_message):
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "user", "content": user_message}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Gradio UI
+with gr.Blocks() as demo:
+    gr.Markdown(" Chatbot ")
+    
+
+    user_text = gr.Textbox(label="Your Message", placeholder="Type something...")
+    bot_reply = gr.Textbox(label="Bot Reply", lines=6)
+
+    send_btn = gr.Button("Send")
+
+    send_btn.click(
+        chatbot_response,
+        inputs=user_text,
+        outputs=bot_reply
+    )
+
+demo.launch()
